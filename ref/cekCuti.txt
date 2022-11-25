@@ -1,0 +1,22 @@
+SELECT 
+	cuti.id AS id, 
+	cuti.id_pegawai AS id_pegawai, 
+	cuti.jenis_cuti AS jenis_cuti, 
+	cuti.no_surat_cuti AS no_surat_cuti, 
+	cuti.tanggal_surat_cuti AS tanggal_surat_cuti, 
+	cuti.tanggal_mulai_cuti AS tanggal_mulai_cuti, 
+	cuti.tanggal_selesai_cuti AS tanggal_selesai_cuti, 
+	cuti.lama_cuti AS lama_cuti, 
+	cuti.sisa_cuti AS sisa_cuti, 
+	cuti.keterangan AS keterangan, 
+	cuti.dokumen_surat_cuti AS dokumen_surat_cuti 
+FROM cuti 
+JOIN (SELECT 
+				cuti.id AS id2, 
+				cuti.id_pegawai AS id_pegawai2, 
+				cuti.tanggal_surat_cuti AS tanggal_surat_cuti2, 
+				cuti.lama_cuti AS lama_cuti2, 
+				MIN(cuti.sisa_cuti) AS min_sisa_cuti 
+			FROM cuti 
+			WHERE cuti.id_pegawai='9') AS cuti2  
+ON cuti2.id_pegawai2=cuti.id_pegawai AND cuti.sisa_cuti=cuti2.min_sisa_cuti
